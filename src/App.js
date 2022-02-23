@@ -4,6 +4,13 @@ import Chat from "./Chat";
 import Sidebar from "./Sidebar";
 import Pusher from "pusher-js";
 import axios from "./axios";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Fragment,
+} from "react-router-dom";
+import SignUp from "./SignUp";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -34,8 +41,21 @@ function App() {
   return (
     <div className="app">
       <div className="app_body">
-        <Sidebar />
-        <Chat messages={messages} />
+        <Router>
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <Sidebar />
+                  <Chat messages={messages} />
+                </>
+              }
+            />
+            <Route exact path="login" element={<SignUp />} />
+          </Routes>
+        </Router>
       </div>
     </div>
   );

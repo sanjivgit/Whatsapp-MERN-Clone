@@ -1,0 +1,33 @@
+.SignUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 3px 6px 28px 6px rgba(0, 0, 0, 0.76);
+}
+
+.SignUp > img {
+  width: 50px;
+  margin: 10px 0;
+}
+
+.SignUp > button {
+  border: none;
+  background-color: darkgreen;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.SignUp > button:hover {
+  background-color: rgb(10, 175, 10);
+}
+
+.SignUp > button:active {
+  transform: scale(0.9);
+}
