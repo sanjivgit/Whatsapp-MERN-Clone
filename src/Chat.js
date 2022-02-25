@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Chat.css";
 import { IconButton, Avatar } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -7,16 +7,42 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import MicIcon from "@mui/icons-material/Mic";
 import axios from "./axios";
+import { AccountContext } from "./context/AccountProvider";
+import { UserContext } from "./context/UserProvider";
+import { ConversationContext } from "./context/ConversationProvider";
+import { HideShowContext } from "./context/HideShowProvider";
 
 function Chat({ messages }) {
   const [input, setInput] = useState("");
+  const { account } = useContext(AccountContext);
+  const { person } = useContext(UserContext);
+  const { conversation, setConversation } = useContext(ConversationContext);
+  const { hideShow, setHideShow } = useContext(HideShowContext);
+
+  useEffect(() => {
+    const getConversationDetails = async () => {
+      axios
+        .post("/conversation/sync", {
+          sender: account.localId,
+          receiver: person.localId,
+        })
+        .then((response) => {
+          setConversation(response.data);
+        });
+    };
+    getConversationDetails();
+  }, [person.localId]);
+
+  // console.log("lksdfjlkj", conversation._id);
+
   const sendMessage = async (e) => {
     e.preventDefault();
     await axios.post("/messages/new", {
-      name: "Dommy User",
+      senderId: account.localId,
+      conversationId: conversation._id,
+      name: account.fullName,
       message: input,
-      timestamp: "just now",
-      received: true,
+      timestamp: new Date().toUTCString(),
     });
     setInput("");
   };
@@ -24,13 +50,13 @@ function Chat({ messages }) {
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar />
+        <Avatar src={person.photoUrl} />
         <div className="chat_headerInfo">
-          <h3>Room name</h3>
-          <p>Last seen at.......</p>
+          <h3>{person.fullName}</h3>
+          <p>online</p>
         </div>
         <div className="chat_headerRight">
-          <IconButton>
+          {/* <IconButton>
             <SearchIcon />
           </IconButton>
           <IconButton>
@@ -38,13 +64,26 @@ function Chat({ messages }) {
           </IconButton>
           <IconButton>
             <MoreVertIcon />
-          </IconButton>
+          </IconButton> */}
+          <h4
+            onClick={() => setHideShow(true)}
+            style={{ fontSize: "10px", color: "gray", display: "none" }}
+          >
+            Participants
+          </h4>
         </div>
       </div>
+
       <div className="chat_body">
         {messages.map((message) => (
-          <p className={`chat_message ${message.received && "chat_receive"}`}>
-            <span className="chat_name">{message.name}</span>
+          <p
+            className={
+              account.localId === message.senderId
+                ? "chat_receive"
+                : "chat_message"
+            }
+          >
+            {/* <span className="chat_name">{message.name}</span> */}
             {message.message}
             <span className="chat_timestamp">{message.timestamp}</span>
           </p>

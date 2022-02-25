@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./SignUp.css";
 import { auth } from "./firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { AccountContext } from "./context/AccountProvider";
+import { addUser } from "./api";
 
 function SignUp() {
-  const [userData, setUserData] = useState([]);
-  const handleSignUp = () => {
+  const { account, setAccount } = useContext(AccountContext);
+
+  const handleSignUp = async (e) => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((response) => setUserData(response._tokenResponse))
+      .then((response) => {
+        setAccount(response._tokenResponse);
+        addUser(response._tokenResponse);
+      })
       .catch((err) => console.log(err));
   };
+
+  // useEffect(async () => {
+  //   await axios.post("/users/new", {
+  //     localId: account.localId,
+  //     fullName: account.fullName,
+  //     email: account.email,
+  //     photoUrl: account.photoUrl,
+  //   });
+  // }, []);
 
   return (
     <div className="SignUp">

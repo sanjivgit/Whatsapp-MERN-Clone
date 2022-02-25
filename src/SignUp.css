@@ -31,3 +31,11 @@
 .SignUp > button:active {
   transform: scale(0.9);
 }
+
+/*********** media query ****************/
+
+@media screen and (max-width: 480px) {
+  .SignUp h3 {
+    text-align: center;
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./App.css";
 import Chat from "./Chat";
 import Sidebar from "./Sidebar";
@@ -11,14 +11,23 @@ import {
   Fragment,
 } from "react-router-dom";
 import SignUp from "./SignUp";
+import { AccountContext } from "./context/AccountProvider";
+import UserProvider from "./context/UserProvider";
+import { ConversationContext } from "./context/ConversationProvider";
+import HideShowProvider from "./context/HideShowProvider";
 
 function App() {
   const [messages, setMessages] = useState([]);
+  const { account } = useContext(AccountContext);
+  const { conversation } = useContext(ConversationContext);
+
   useEffect(() => {
-    axios.get("/messages/sync").then((response) => {
+    axios.get(`/messages/sync/${conversation._id}`).then((response) => {
       setMessages(response.data);
     });
-  }, []);
+  }, [conversation?._id]);
+
+  console.log("llkfls", conversation);
 
   useEffect(() => {
     const pusher = new Pusher("77dac813d70497340af6", {
@@ -36,16 +45,27 @@ function App() {
     };
   }, [messages]);
 
-  console.log(messages);
+  // console.log(messages);
 
   return (
-    <div className="app">
-      <div className="app_body">
-        <Router>
+    <UserProvider>
+      <HideShowProvider>
+        <div className="app">
+          <div className="app_body">
+            {account ? (
+              <>
+                <Sidebar />
+                <Chat messages={messages} />
+              </>
+            ) : (
+              <SignUp />
+            )}
+
+            {/* <Router>
           <Routes>
             <Route
               exact
-              path="/"
+              path="/home"
               element={
                 <>
                   <Sidebar />
@@ -53,11 +73,14 @@ function App() {
                 </>
               }
             />
+
             <Route exact path="login" element={<SignUp />} />
           </Routes>
-        </Router>
-      </div>
-    </div>
+        </Router> */}
+          </div>
+        </div>
+      </HideShowProvider>
+    </UserProvider>
   );
 }
 

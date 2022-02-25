@@ -49,8 +49,13 @@
 }
 
 .chat_receive {
+  position: relative;
   background-color: #dcf8c6;
   margin-left: auto;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  width: fit-content;
 }
 
 .chat_name {
@@ -93,4 +98,22 @@
 
 .chat_footer > form > button {
   display: none;
+}
+
+/******************* media query *******************/
+
+@media screen and (max-width: 480px) {
+  .chat {
+    padding: 10px;
+    margin: 0;
+  }
+
+  .chat_header {
+    padding: 5px;
+  }
+
+  .chat_headerRight h4 {
+    display: inline !important;
+    cursor: pointer;
+  }
 }
