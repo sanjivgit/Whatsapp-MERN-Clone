@@ -38,4 +38,7 @@
   .SignUp h3 {
     text-align: center;
   }
+  .SignUp {
+    margin: auto 20px;
+  }
 }

@@ -27,11 +27,6 @@ function Sidebar() {
       setUsers(filterData);
     });
   }, [text]);
-  const style = {
-    "@media (max-width: 480px)": {
-      display: hideShow ? "inline-flex" : "none",
-    },
-  };
 
   return (
     <div
@@ -67,6 +62,9 @@ function Sidebar() {
           src={account.photoUrl}
           onClick={() => setProfileClick(!profileClick)}
         />
+        <IconButton>
+          <MoreVertIcon onClick={() => setMoreVertClick(!moreVertClick)} />
+        </IconButton>
       </div>
       {profileClick && (
         <div className="sidebar_Profile">

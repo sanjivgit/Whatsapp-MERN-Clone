@@ -73,22 +73,28 @@ function Chat({ messages }) {
           </h4>
         </div>
       </div>
-
-      <div className="chat_body">
-        {messages.map((message) => (
-          <p
-            className={
-              account.localId === message.senderId
-                ? "chat_receive"
-                : "chat_message"
-            }
-          >
-            {/* <span className="chat_name">{message.name}</span> */}
-            {message.message}
-            <span className="chat_timestamp">{message.timestamp}</span>
-          </p>
-        ))}
-      </div>
+      {account.localId === person.localId ? (
+        <div className="chat_body_initial">
+          <h1>Start New Conversation</h1>
+          <h3>Have a Nice Day!!!</h3>
+        </div>
+      ) : (
+        <div className="chat_body">
+          {messages.map((message) => (
+            <p
+              className={
+                account.localId === message.senderId
+                  ? "chat_receive"
+                  : "chat_message"
+              }
+            >
+              {/* <span className="chat_name">{message.name}</span> */}
+              {message.message}
+              <span className="chat_timestamp">{message.timestamp}</span>
+            </p>
+          ))}
+        </div>
+      )}
       <div className="chat_footer">
         <InsertEmoticonIcon />
         <form>

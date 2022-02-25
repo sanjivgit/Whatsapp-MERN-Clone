@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 0.65;
+  position: relative;
 }
 
 ::-webkit-scrollbar {
@@ -98,6 +99,19 @@
 
 .chat_footer > form > button {
   display: none;
+}
+
+.chat_body_initial {
+  background-color: rgb(250, 245, 245);
+  position: absolute;
+  top: 79px;
+  height: 89%;
+  width: 100%;
+  padding-top: 50%;
+}
+
+.chat_body_initial > h1 > h3 {
+  text-align: center;
 }
 
 /******************* media query *******************/
