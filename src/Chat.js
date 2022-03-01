@@ -19,13 +19,15 @@ function Chat({ messages }) {
   const { conversation, setConversation } = useContext(ConversationContext);
   const { hideShow, setHideShow } = useContext(HideShowContext);
 
+  // {
+  //         sender: account.localId,
+  //         receiver: person.localId,
+  //       }
+
   useEffect(() => {
     const getConversationDetails = async () => {
       axios
-        .post("/conversation/sync", {
-          sender: account.localId,
-          receiver: person.localId,
-        })
+        .get(`/conversation/sync/${account.localId}/${person.localId}`)
         .then((response) => {
           setConversation(response.data);
         });
