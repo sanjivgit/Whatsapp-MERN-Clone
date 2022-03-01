@@ -105,14 +105,18 @@
   background-color: rgb(250, 245, 245);
   position: absolute;
   top: 79px;
-  height: 89%;
+  height: 88%;
   width: 100%;
-  padding-top: 50%;
 }
 
-.chat_body_initial > h1 > h3 {
+.chat_body_initial_item {
+  padding-top: 40%;
   text-align: center;
 }
+
+/* .chat_body_initial > h1 > h3 {
+  text-align: center;
+} */
 
 /******************* media query *******************/
 
@@ -129,5 +133,19 @@
   .chat_headerRight h4 {
     display: inline !important;
     cursor: pointer;
+  }
+
+  .chat_body_initial {
+    background-color: rgb(250, 245, 245);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    height: 90%;
+    width: 99%;
+  }
+
+  .chat_body_initial_item {
+    padding-top: 60%;
+    text-align: center;
   }
 }

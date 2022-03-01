@@ -5,11 +5,13 @@ import { AccountContext } from "./context/AccountProvider";
 import axios from "./axios";
 import { UserContext } from "./context/UserProvider";
 import { HideShowContext } from "./context/HideShowProvider";
+import { StartConversationContext } from "./context/StartConversation";
 
 function SidebarChat({ name, imageUrl, localId, item }) {
   const { account } = useContext(AccountContext);
   const { setPerson } = useContext(UserContext);
   const { setHideShow } = useContext(HideShowContext);
+  const { setInitial } = useContext(StartConversationContext);
 
   const setUser = async () => {
     const senderId = account.localId;
@@ -19,6 +21,7 @@ function SidebarChat({ name, imageUrl, localId, item }) {
       members: [senderId, receiverId],
     });
     setHideShow(false);
+    setInitial(false);
   };
 
   return (

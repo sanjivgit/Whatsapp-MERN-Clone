@@ -11,6 +11,7 @@ import { AccountContext } from "./context/AccountProvider";
 import { UserContext } from "./context/UserProvider";
 import { ConversationContext } from "./context/ConversationProvider";
 import { HideShowContext } from "./context/HideShowProvider";
+import { StartConversationContext } from "./context/StartConversation";
 
 function Chat({ messages }) {
   const [input, setInput] = useState("");
@@ -18,11 +19,7 @@ function Chat({ messages }) {
   const { person } = useContext(UserContext);
   const { conversation, setConversation } = useContext(ConversationContext);
   const { hideShow, setHideShow } = useContext(HideShowContext);
-
-  // {
-  //         sender: account.localId,
-  //         receiver: person.localId,
-  //       }
+  const { initial } = useContext(StartConversationContext);
 
   useEffect(() => {
     const getConversationDetails = async () => {
@@ -52,10 +49,10 @@ function Chat({ messages }) {
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar src={person.photoUrl} />
+        <Avatar src={person.photoUrl || account.photoUrl} />
         <div className="chat_headerInfo">
-          <h3>{person.fullName}</h3>
-          <p>online</p>
+          <h3>{person.fullName || "It's You"}</h3>
+          <p>{person.fullName ? "offline" : "online"}</p>
         </div>
         <div className="chat_headerRight">
           {/* <IconButton>
@@ -75,10 +72,12 @@ function Chat({ messages }) {
           </h4>
         </div>
       </div>
-      {account.localId === person.localId ? (
+      {initial ? (
         <div className="chat_body_initial">
-          <h1>Start New Conversation</h1>
-          <h3>Have a Nice Day!!!</h3>
+          <div className="chat_body_initial_item">
+            <h1>Start New Conversation</h1>
+            <h3>Have a Nice Day!!!</h3>
+          </div>
         </div>
       ) : (
         <div className="chat_body">

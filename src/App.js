@@ -15,6 +15,7 @@ import { AccountContext } from "./context/AccountProvider";
 import UserProvider from "./context/UserProvider";
 import { ConversationContext } from "./context/ConversationProvider";
 import HideShowProvider from "./context/HideShowProvider";
+import StartConversationProvider from "./context/StartConversation";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -48,20 +49,21 @@ function App() {
   // console.log(messages);
 
   return (
-    <UserProvider>
-      <HideShowProvider>
-        <div className="app">
-          <div className="app_body">
-            {account ? (
-              <>
-                <Sidebar />
-                <Chat messages={messages} />
-              </>
-            ) : (
-              <SignUp />
-            )}
+    <StartConversationProvider>
+      <UserProvider>
+        <HideShowProvider>
+          <div className="app">
+            <div className="app_body">
+              {account ? (
+                <>
+                  <Sidebar />
+                  <Chat messages={messages} />
+                </>
+              ) : (
+                <SignUp />
+              )}
 
-            {/* <Router>
+              {/* <Router>
           <Routes>
             <Route
               exact
@@ -77,10 +79,11 @@ function App() {
             <Route exact path="login" element={<SignUp />} />
           </Routes>
         </Router> */}
+            </div>
           </div>
-        </div>
-      </HideShowProvider>
-    </UserProvider>
+        </HideShowProvider>
+      </UserProvider>
+    </StartConversationProvider>
   );
 }
 
